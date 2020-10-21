@@ -48,6 +48,7 @@ export const TableStyled = styled.div`
 padding-top:12px;
 table{
   background-color:${NAVBAR_COLOR};
+  border-radius: 6px;
 }
 thead > tr > .ant-table-cell{
   background-color: black;
@@ -93,10 +94,11 @@ font-weight: 500;
 export const CardStyled = styled.div`
 background-color:${NAVBAR_COLOR};
 width:550px;
-height:530px;
+height:650px;
 margin-left:15px;
 border-radius: 6px;
 border:1px solid ${PRIMARY};
+margin-top:30px;
 `
 export const GoldenLineStyled = styled.div`
 10px;

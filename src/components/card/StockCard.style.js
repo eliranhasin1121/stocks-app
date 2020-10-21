@@ -41,5 +41,21 @@ font-size:16px;
 text-align:center;
 font-weight:500;
 padding-top:5px;
-
+`
+export const GraphStyled = styled.div`
+display:flex;
+justify-content:center;
+`
+export const PeriodStyled = styled.span`
+color:${PRIMARY};
+font-size:20px;
+font-weight:${({selected})=> selected ? 600 : 400};
+`
+export const PeriodsStlyed = styled.div`
+display:flex;
+justify-content:space-between;
+padding:${({time})=>time ? '7px 10px 10px':'15px 40px 20px'};
+`
+export const HorizontalLine = styled.div`
+border-bottom:1px solid ${PRIMARY};
 `

@@ -4,17 +4,20 @@ import {Select,Row,Col,Input,Button, Table} from 'antd';
 import Icon,{ SearchOutlined } from '@ant-design/icons';
 import { BACKGROUND_COLOR,PRICE_UP,PRICE_DOWN,PRIMARY } from '../../common/colors';
 import StockCard from '../../components/card/StockCard.component';
-const tableData = require('../../mock-data/new_table.json').ticker_list;
-const hisrory = require('../../mock-data/history.json');
+import {getStocksData} from '../../common/http';
+const hisroryData = require('../../mock-data/history_bars.json');
 
 
 const {Option} = Select;
 
 export default function HomePage(){
-const [data,setData] = useState(tableData)
+const [data,setData] = useState([])
+const [originalData,setOriginalData] = useState([])
 const [selected,setSelected] = useState(null);
-    useEffect(()=>{
-        console.log({tableData,hisrory});
+    useEffect(async()=>{
+        const data = await getStocksData();
+        setData(data);
+        setOriginalData(data);
     },[])
 
     const columns = [
@@ -126,7 +129,8 @@ const [selected,setSelected] = useState(null);
                 <Table onRow={(record, rowIndex)=>{
                     return{
                         onClick: event =>{
-                            setData(tableData)
+                            console.log('heree',originalData)
+                            setData(originalData)
                             setSelected(null);
                         } 
                     }
@@ -135,7 +139,7 @@ const [selected,setSelected] = useState(null);
             </Col>
             <Col span={12}>
                 <CardStyled>
-                    <StockCard stockData={selected}/>
+                    <StockCard stockData={selected} graphsData={hisroryData}/>
                 </CardStyled>
             </Col>
             </Row>
