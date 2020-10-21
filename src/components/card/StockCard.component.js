@@ -5,6 +5,7 @@ import { LineChart, Line, XAxis, YAxis, Tooltip,BarChart,Bar} from 'recharts';
 import {getHistoryByStock} from '../../common/http';
 import {PRIMARY} from '../../common/colors';
 import Cell from 'recharts/lib/component/Cell';
+const history = require('../../mock-data/history_true_data.json');
 
 export default function StockCard({stockData,graphsData}){
 
@@ -15,7 +16,7 @@ export default function StockCard({stockData,graphsData}){
     useEffect(() =>{
         getHistoryByStock(stockData.stock).then(res =>{
             const graphs = res;
-            const graph = graphs[`${stockData.stock}`]['1d'].filter((_,index) => index % 5 === 0);
+            const graph = history;
 
             const bars = graphs[`${stockData.stock}`].bars;
             console.log({bars})
@@ -65,15 +66,15 @@ export default function StockCard({stockData,graphsData}){
                 <PeriodStyled>MAX</PeriodStyled>
             </PeriodsStlyed>    
             <GraphStyled>
-              <LineChart width={450}  height={200}  margin={{ top: 5, right: 5, bottom: 5, left:30 }} data={graphData}>
-                <Line type="linear" strockWidth={2} connectNulls={true} dot={false} dataKey="close" stroke='#ffffff' />
-                <XAxis hide={true} dataKey="label"/>
-                <YAxis hide={true} dataKey="close"  domain={['dataMin','dataMax']}/>
+              <LineChart width={480}  height={200} strokeWidth={2}  margin={{ top: 5, right: 5, bottom: 5, left:30 }} data={graphData}>
+                <Line type="linear"  connectNulls={true} dot={false} dataKey="close" stroke='#ffffff' />
+                <XAxis hide  dataKey="label"/>
+                <YAxis hide  dataKey="close"  domain={['dataMin','dataMax']}/>
                 <Tooltip />
               </LineChart>
             </GraphStyled>
             <GraphStyled>
-            <BarChart width={450} height={200} data={bars}>
+            <BarChart width={480} height={200} data={bars}>
                 <XAxis dataKey="label" hide={true}  />
                 <YAxis hide={true}   />
                 <Tooltip />
