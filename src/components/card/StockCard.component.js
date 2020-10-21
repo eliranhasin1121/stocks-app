@@ -11,18 +11,18 @@ const animationData  =  require('../../assets/lottie/loader.json');
 export default function StockCard({stockData}){
 
     const [graphData,setGraphData] = useState([]);
-    const [xValues,setXValues] = useState([]);
-    const [yValues,setYValues] = useState([]);
     const [loading,setLoading] = useState(true);
     const [bars,setBars] = useState(null);
+    const [lineWidth,setLineWidth] = useState(0);
     useEffect(() =>{
        const interval =  setInterval(()=>{
             getHistoryByStock(stockData.stock).then(res =>{
                 const graphs = res[`${stockData.stock}`];
-                const graph = graphs['1d']
+                const graph = graphs['1d']?.filter((_,index)=>index%5===0);
                 const bars = graphs.bars;
                 setGraphData(graph);
                 setBars(bars);
+                setLineWidth(graph.length * 6.15);
             })
             .catch(err => console.error(err));    
         },60000)
@@ -34,15 +34,14 @@ export default function StockCard({stockData}){
              getHistoryByStock(stockData.stock).then(res =>{
                  console.log({res});
                  const graphs = res[`${stockData.stock}`];
-                 const graph = graphs['1d']
+                 const graph = graphs['1d'].filter((_,index)=>index % 5 === 0);
                  const bars = graphs.bars;
                  setGraphData(graph);
                  setBars(bars);
                 setLoading(false);
-
+                setLineWidth(graph.length * 6.15);
              })
              .catch(err => console.error(err));    
-
          }
      ,[])
 
@@ -91,7 +90,6 @@ export default function StockCard({stockData}){
           }
           return null
       }
-    console.log({graphData})
     return (
         <StockCardStyled>
             <TopPanelStyled>
@@ -117,7 +115,7 @@ export default function StockCard({stockData}){
                 <PeriodStyled>MAX</PeriodStyled>
             </PeriodsStlyed>    
             <GraphStyled>
-              <LineChart width={480}  height={200} strokeWidth={2}  margin={{ top: 5, right: 5, bottom: 5, left:30 }} data={graphData}>
+              <LineChart width={lineWidth}  height={200} strokeWidth={2}  margin={{ top: 5, right: 5, bottom: 5, left:30 }} data={graphData}>
                 <Line type="linear"  connectNulls={true} dot={false} dataKey="close" stroke='#ffffff' />
                 <XAxis hide  dataKey="label"/>
                 <YAxis hide  dataKey="close"  domain={['dataMin','dataMax']}/>

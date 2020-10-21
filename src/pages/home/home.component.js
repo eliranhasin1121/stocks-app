@@ -8,7 +8,6 @@ import {getStocksData} from '../../common/http';
 const hisroryData = require('../../mock-data/history_bars.json');
 const table = require('../../mock-data/new_table.json').ticker_list;
 
-const {Option} = Select;
 
 export default function HomePage(){
 const [data,setData] = useState([])
@@ -133,16 +132,6 @@ const [selected,setSelected] = useState(null);
     return (
         <HomePageStyled>
             <Row>
-            {/* <Col span={2}>
-                <Select onSelect={selected=>setSelector(selected)} placeholder={'sort by'} style={{width:112,borderRadius:6,border:'1px solid white'}}>
-                    <Option key="ticker" value="stock">ticker</Option>
-                    <Option key="price" value="price">price</Option>
-                    <Option key="priceChange" value="price_change">price change</Option>
-                    <Option key="volume" value="volume">volume</Option>
-                    <Option key="traffic" value="daily_interset">traffic</Option>
-                    <Option key="trafficChange" value="current_change">traffic change</Option>
-                </Select>
-            </Col> */}
             <Col span={1} style>
                 <Select placeholder={'portfolio'} style={{width:127,borderRadius:6,border:'1px solid white'}}>
                 </Select>
@@ -166,7 +155,6 @@ const [selected,setSelected] = useState(null);
                     return{
                         onClick: event =>{
                             setSelected(record);
-                            console.log({rowIndex,event})
                             setTimeout(()=>{
                                 let element = document.querySelector(`.ant-table-tbody`);
                                 console.log({element})
@@ -197,7 +185,7 @@ const [selected,setSelected] = useState(null);
                                     setSelected(null);
                                 } 
                             }
-                        }}  columns={columns} dataSource={data} pagination={false} />
+                        }}  columns={columns} dataSource={data} pagination={false}  showSorterTooltip={false}/>
                     </TableStyled>  
             </Col>
             <Col span={12}>
@@ -206,10 +194,7 @@ const [selected,setSelected] = useState(null);
                 </CardStyled>
             </Col>
             </Row>
-            )
-           }
-           
-            
+            )}
         </HomePageStyled>
     )
 }

@@ -120,7 +120,7 @@ height:650px;
 margin-left:15px;
 border-radius: 6px;
 border:1px solid ${PRIMARY};
-margin-top:30px;
+margin-top:70px;
 `
 export const GoldenLineStyled = styled.div`
 10px;

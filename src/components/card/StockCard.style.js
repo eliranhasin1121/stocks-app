@@ -43,7 +43,7 @@ padding-top:5px;
 `
 export const GraphStyled = styled.div`
 display:flex;
-justify-content:center;
+
 `
 export const PeriodStyled = styled.span`
 color:${PRIMARY};
