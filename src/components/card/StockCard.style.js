@@ -1,9 +1,8 @@
 import styled from 'styled-components'
-import {PRIMARY} from '../../common/colors';
+import {PRIMARY, NAVBAR_COLOR} from '../../common/colors';
 export const StockCardStyled = styled.div`
 padding:20px;
 `
-
 export const TopPanelStyled = styled.div`
 
 `
@@ -68,4 +67,23 @@ justify-content:center;
 -o-transform: scale(-1, 1);
 -ms-transform: scale(-1, 1);
 transform: scale(-1, 1);
+`
+export const TooltipContainer = styled.div`
+background-color:${({bar})=>bar ? `${NAVBAR_COLOR}` : `${PRIMARY}`};
+height:65px;
+width:190px;
+display:flex;
+justify-content:space-between;
+border-radius: 6px;
+padding:15px;
+`
+export const TooltipText = styled.div`
+font-size:${({size})=>size}px;
+align-items:center;
+color:${({bar})=>bar ? `${PRIMARY}`:'black'};
+font-weight:500;
+`
+export const DatesContainer = styled.div`
+display:flex;
+flex-direction:column;
 `

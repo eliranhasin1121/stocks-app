@@ -1,12 +1,11 @@
 import React, { useEffect,useState } from 'react';
-import {StockCardStyled,TopPanelStyled,CompanyStyled,PrimaryStyled,BottomPanelStyled,Column,ResultStyled,GoldenText,GraphStyled,PeriodsStlyed,PeriodStyled,HorizontalLine,LoadingContainer} from './StockCard.style';
+import {StockCardStyled,TopPanelStyled,CompanyStyled,PrimaryStyled,BottomPanelStyled,Column,ResultStyled,TooltipContainer,TooltipText,DatesContainer,GoldenText,GraphStyled,PeriodsStlyed,PeriodStyled,HorizontalLine,LoadingContainer} from './StockCard.style';
 import { PRICE_DOWN,PRICE_UP, NAVBAR_COLOR } from '../../common/colors';
 import { LineChart, Line, XAxis, YAxis, Tooltip,BarChart,Bar} from 'recharts';
 import {getHistoryByStock} from '../../common/http';
 import {PRIMARY} from '../../common/colors';
 import Lottie from 'react-lottie';
 import Cell from 'recharts/lib/component/Cell';
-const history = require('../../mock-data/history_true_data.json');
 const animationData  =  require('../../assets/lottie/loader.json');
 
 export default function StockCard({stockData}){
@@ -19,11 +18,9 @@ export default function StockCard({stockData}){
     useEffect(() =>{
        const interval =  setInterval(()=>{
             getHistoryByStock(stockData.stock).then(res =>{
-                const graphs = res;
-                const graph = history;
-    
-                const bars = graphs[`${stockData.stock}`].bars;
-                console.log({bars})
+                const graphs = res[`${stockData.stock}`];
+                const graph = graphs['1d']
+                const bars = graphs.bars;
                 setGraphData(graph);
                 setBars(bars);
             })
@@ -35,10 +32,10 @@ export default function StockCard({stockData}){
     },[])
     useEffect(() =>{
              getHistoryByStock(stockData.stock).then(res =>{
-                 const graphs = res;
-                 const graph = history;
-                 const bars = graphs[`${stockData.stock}`].bars;
-                 console.log({bars})
+                 console.log({res});
+                 const graphs = res[`${stockData.stock}`];
+                 const graph = graphs['1d']
+                 const bars = graphs.bars;
                  setGraphData(graph);
                  setBars(bars);
                 setLoading(false);
@@ -49,17 +46,6 @@ export default function StockCard({stockData}){
          }
      ,[])
 
-    async function fetchData(){
-        try{
-            const graphs = await getHistoryByStock(stockData.stock);
-            const graph = graphs[`${stockData.stock}`]['1d']
-            const bars = graphs[`${stockData.stock}`].bars;
-            setGraphData(graph);
-            setBars(bars);
-        }catch(err){
-            console.error(err)
-        }
-    }
 
     const options = {
         loop:true,
@@ -76,6 +62,35 @@ export default function StockCard({stockData}){
         )
     }
 
+    const CustomTooltipLine = ({ active, payload, label }) => {
+        if (active) {
+          return (
+            <TooltipContainer>
+                <DatesContainer >
+                    <TooltipText>{payload?.length ? `${payload[0]?.payload.date}` : 'N/A'}</TooltipText>
+                    <TooltipText>{label}</TooltipText>
+                </DatesContainer>
+                <TooltipText>{payload?.length ? `$${payload[0]?.payload?.close}`:'N/A'}</TooltipText>
+            </TooltipContainer>
+          );
+        }
+      
+        return null;
+      };
+
+      const CustomTooltipBar = ({active,payload,label})=>{
+          if(active){
+              return(
+                <TooltipContainer bar>
+                         <DatesContainer>
+                             <TooltipText bar>{label}</TooltipText>
+                         </DatesContainer>
+                         <TooltipText bar>{payload.length ? `${payload[0]?.payload?.interest}`:'N/A'}</TooltipText>
+                    </TooltipContainer>
+              )
+          }
+          return null
+      }
     console.log({graphData})
     return (
         <StockCardStyled>
@@ -106,14 +121,15 @@ export default function StockCard({stockData}){
                 <Line type="linear"  connectNulls={true} dot={false} dataKey="close" stroke='#ffffff' />
                 <XAxis hide  dataKey="label"/>
                 <YAxis hide  dataKey="close"  domain={['dataMin','dataMax']}/>
-                <Tooltip />
+                <Tooltip content={<CustomTooltipLine/>} />
               </LineChart>
             </GraphStyled>
             <GraphStyled>
             <BarChart width={480} height={200} data={bars}>
                 <XAxis dataKey="label" hide={true}  />
                 <YAxis hide={true}   />
-                <Tooltip />
+                <Tooltip content={<CustomTooltipBar/>} />
+
                 <Bar  background={{ fill: `${NAVBAR_COLOR}` }}  dataKey="interest" fill={'rgba(247,163,17,0.6)'}>
                     {
                      bars?.map((bar,index)=>(
@@ -127,7 +143,7 @@ export default function StockCard({stockData}){
             <PeriodsStlyed time>
                 <PeriodStyled>9:30</PeriodStyled>
                 <PeriodStyled>10:00</PeriodStyled>
-                <PeriodStyled>1100:</PeriodStyled>
+                <PeriodStyled>1100</PeriodStyled>
                 <PeriodStyled>12:00</PeriodStyled>
                 <PeriodStyled>13:00</PeriodStyled>
                 <PeriodStyled>14:00</PeriodStyled>

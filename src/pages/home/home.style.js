@@ -6,6 +6,9 @@ padding:20px 100px 20px 250px;
 .ant-select > .ant-select-selector{
     background-color:${BACKGROUND_COLOR};
 }
+.ant-select > .ant-select-selector > .ant-select-selection-item{
+  color:white;
+}
 .ant-select-item-option-content{
     color:${PRIMARY}
 }
@@ -18,6 +21,14 @@ rc-virtual-list-holder-inner > div > .ant-select-item, div > .ant-select-item-op
 .ant-select-arrow{
     color:white;
 }
+tr > th > .ant-table-column-sorters:hover{
+  background-color:${BACKGROUND_COLOR}
+  
+}
+tr > .ant-table-cell:hover, .ant-table-column-has-sorters:hover{
+  background-color:${BACKGROUND_COLOR}
+}
+tr > .a
 `
 export const SearchStyled = styled.span`
 input,.ant-input-search{
@@ -35,6 +46,9 @@ input::placeholder{
 input[attribute~="value"]{
   color:white;
 }
+.ant-table-thead th.ant-table-column-has-sorters:hover{
+  background-color:${BACKGROUND_COLOR};
+}
 
 }`
 
@@ -50,9 +64,13 @@ table{
   background-color:${NAVBAR_COLOR};
   border-radius: 6px;
 }
-thead > tr > .ant-table-cell{
-  background-color: black;
+thead > tr > .ant-table-cell {
+  background-color: ${BACKGROUND_COLOR};
   border-bottom: 0px;
+}
+
+tbody > tr > .ant-table-column-sort{
+  background-color:${NAVBAR_COLOR};
 }
 .ant-table-tbody > tr > td {
   border-bottom:2px solid ${BACKGROUND_COLOR};
@@ -75,6 +93,10 @@ thead > tr > .ant-table-cell{
     border-top:2px solid ${PRIMARY};
 
   }
+}
+thead > tr > th > div > span > span > .anticon anticon-caret-down ,.ant-table-column-sorter-down,.anticon anticon-caret-up ,.ant-table-column-sorter-up > svg{
+  color:${PRIMARY}
+
 }
 `
 export const TitleStyle = styled.span`
