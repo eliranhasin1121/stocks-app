@@ -1,11 +1,11 @@
-import React, { useEffect,useState } from 'react';
-import {StockCardStyled,TopPanelStyled,CompanyStyled,PrimaryStyled,BottomPanelStyled,Column,ResultStyled,TooltipContainer,TooltipText,DatesContainer,GoldenText,GraphStyled,PeriodsStlyed,PeriodStyled,HorizontalLine,LoadingContainer} from './StockCard.style';
-import { PRICE_DOWN,PRICE_UP, NAVBAR_COLOR } from '../../common/colors';
-import { LineChart, Line, XAxis, YAxis, Tooltip,BarChart,Bar} from 'recharts';
-import {getHistoryByStock} from '../../common/http';
-import {PRIMARY} from '../../common/colors';
+import React, { useEffect, useState } from 'react';
 import Lottie from 'react-lottie';
+import { Bar, BarChart, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 import Cell from 'recharts/lib/component/Cell';
+import { NAVBAR_COLOR, PRICE_DOWN, PRICE_UP } from '../../common/colors';
+import { getHistoryByStock } from '../../common/http';
+import Tweet from '../tweet/Tweet.component';
+import { BottomPanelStyled, Column, CompanyStyled, DatesContainer, GoldenText, GraphStyled, HorizontalLine, LoadingContainer, MostActiveText, PeriodsStlyed, PeriodStyled, PrimaryStyled, ResultStyled, StockCardStyled, TooltipContainer, TooltipText, TopPanelStyled, TweetsHeader, TwitesContainer } from './StockCard.style';
 const animationData  =  require('../../assets/lottie/loader.json');
 
 export default function StockCard({stockData}){
@@ -14,15 +14,18 @@ export default function StockCard({stockData}){
     const [loading,setLoading] = useState(true);
     const [bars,setBars] = useState(null);
     const [lineWidth,setLineWidth] = useState(0);
+    const [tweets,setTweets] = useState([]);
     useEffect(() =>{
        const interval =  setInterval(()=>{
             getHistoryByStock(stockData.stock).then(res =>{
                 const graphs = res[`${stockData.stock}`];
-                const graph = graphs['1d']?.filter((_,index)=>index%5===0);
+                const graph = graphs['1d']?.filter((_,index)=>index % 5 === 0);
                 const bars = graphs.bars;
                 setGraphData(graph);
                 setBars(bars);
                 setLineWidth(graph.length * 6.15);
+                console.log({graphs})
+                setTweets(graphs.tweets);
             })
             .catch(err => console.error(err));    
         },60000)
@@ -34,12 +37,13 @@ export default function StockCard({stockData}){
              getHistoryByStock(stockData.stock).then(res =>{
                  console.log({res});
                  const graphs = res[`${stockData.stock}`];
-                 const graph = graphs['1d'].filter((_,index)=>index % 5 === 0);
+                 const graph = graphs['1d']?.filter((_,index)=>index % 5 === 0);
                  const bars = graphs.bars;
                  setGraphData(graph);
                  setBars(bars);
                 setLoading(false);
-                setLineWidth(graph.length * 6.15);
+                setLineWidth(graph?.length * 6.15);
+                setTweets(graphs.tweets);
              })
              .catch(err => console.error(err));    
          }
@@ -77,6 +81,7 @@ export default function StockCard({stockData}){
         return null;
       };
 
+      console.log({tweets})
       const CustomTooltipBar = ({active,payload,label})=>{
           if(active){
               return(
@@ -148,6 +153,17 @@ export default function StockCard({stockData}){
                 <PeriodStyled>15:00</PeriodStyled>
                 <PeriodStyled>16:00</PeriodStyled>
             </PeriodsStlyed>
+            <div style={{display:'flex',justifyContent:'center',paddingBottom:15}}>
+            <HorizontalLine width={'46px'} style={{display:'flex',justifyContent:'center'}}/>
+            </div>
+            <TwitesContainer>
+                <TweetsHeader>
+                    <MostActiveText>most active</MostActiveText>
+                </TweetsHeader>
+                {tweets.map((tweet,index)=>(
+                    <Tweet tweet={tweet} key={index}/>
+                ))}
+            </TwitesContainer>
         </StockCardStyled>
     )
 }

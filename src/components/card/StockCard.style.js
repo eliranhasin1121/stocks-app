@@ -57,6 +57,7 @@ padding:${({time})=>time ? '7px 10px 10px':'15px 40px 20px'};
 `
 export const HorizontalLine = styled.div`
 border-bottom:1px solid ${PRIMARY};
+width:${({width})=> width ? width : '100%'};
 `   
 
 export const LoadingContainer = styled.div`
@@ -86,4 +87,20 @@ font-weight:500;
 export const DatesContainer = styled.div`
 display:flex;
 flex-direction:column;
+`
+
+export const TweetsHeader = styled.div`
+display:flex;
+justify-content:center;
+`
+
+export const MostActiveText = styled.span`
+color:white;
+font-weight:600;
+font-size:16px;
+`
+export const TwitesContainer = styled.div`
+ max-height:250px;
+ overflow:auto;
+
 `

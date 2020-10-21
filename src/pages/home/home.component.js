@@ -150,7 +150,7 @@ const [selected,setSelected] = useState(null);
             </Row>
            {
             !selected ? (
-            <TableStyled>
+            <TableStyled className="aaa" full>
                 <Table onRow={(record, rowIndex)=>{
                     return{
                         onClick: event =>{

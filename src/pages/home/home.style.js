@@ -59,6 +59,8 @@ export const ButtonStyled = styled.span`
 `
 
 export const TableStyled = styled.div`
+width:${({full})=>full ? '80%':'100%'};
+margin:auto;
 padding-top:12px;
 table{
   background-color:${NAVBAR_COLOR};
@@ -116,7 +118,7 @@ font-weight: 500;
 export const CardStyled = styled.div`
 background-color:${NAVBAR_COLOR};
 width:550px;
-height:650px;
+height:980px;
 margin-left:15px;
 border-radius: 6px;
 border:1px solid ${PRIMARY};
