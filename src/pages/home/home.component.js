@@ -125,17 +125,17 @@ const [selected,setSelected] = useState(null);
             ) : (
                 <Row>
                     <Col span={12}>
-                <TableStyled className="selected">
-                <Table onRow={(record, rowIndex)=>{
-                    return{
-                        onClick: event =>{
-                            console.log('heree',originalData)
-                            setData(originalData)
-                            setSelected(null);
-                        } 
-                    }
-                }}  columns={columns} dataSource={data} pagination={false}/>
-            </TableStyled>  
+                        <TableStyled className="selected">
+                        <Table onRow={(record, rowIndex)=>{
+                            return{
+                                onClick: event =>{
+                                    console.log('heree',originalData)
+                                    setData(originalData)
+                                    setSelected(null);
+                                } 
+                            }
+                        }}  columns={columns} dataSource={data} pagination={false}/>
+                    </TableStyled>  
             </Col>
             <Col span={12}>
                 <CardStyled>

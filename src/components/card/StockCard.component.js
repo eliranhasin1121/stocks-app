@@ -1,30 +1,53 @@
 import React, { useEffect,useState } from 'react';
-import {StockCardStyled,TopPanelStyled,CompanyStyled,PrimaryStyled,BottomPanelStyled,Column,ResultStyled,GoldenText,GraphStyled,PeriodsStlyed,PeriodStyled,HorizontalLine} from './StockCard.style';
+import {StockCardStyled,TopPanelStyled,CompanyStyled,PrimaryStyled,BottomPanelStyled,Column,ResultStyled,GoldenText,GraphStyled,PeriodsStlyed,PeriodStyled,HorizontalLine,LoadingContainer} from './StockCard.style';
 import { PRICE_DOWN,PRICE_UP, NAVBAR_COLOR } from '../../common/colors';
 import { LineChart, Line, XAxis, YAxis, Tooltip,BarChart,Bar} from 'recharts';
 import {getHistoryByStock} from '../../common/http';
 import {PRIMARY} from '../../common/colors';
+import Lottie from 'react-lottie';
 import Cell from 'recharts/lib/component/Cell';
 const history = require('../../mock-data/history_true_data.json');
+const animationData  =  require('../../assets/lottie/loader.json');
 
-export default function StockCard({stockData,graphsData}){
+export default function StockCard({stockData}){
 
     const [graphData,setGraphData] = useState([]);
     const [xValues,setXValues] = useState([]);
     const [yValues,setYValues] = useState([]);
+    const [loading,setLoading] = useState(true);
     const [bars,setBars] = useState(null);
     useEffect(() =>{
-        getHistoryByStock(stockData.stock).then(res =>{
-            const graphs = res;
-            const graph = history;
-
-            const bars = graphs[`${stockData.stock}`].bars;
-            console.log({bars})
-            setGraphData(graph);
-            setBars(bars);
-        })
-        .catch(err => console.error(err));
+       const interval =  setInterval(()=>{
+            getHistoryByStock(stockData.stock).then(res =>{
+                const graphs = res;
+                const graph = history;
+    
+                const bars = graphs[`${stockData.stock}`].bars;
+                console.log({bars})
+                setGraphData(graph);
+                setBars(bars);
+            })
+            .catch(err => console.error(err));    
+        },60000)
+        return ()=>{
+            clearInterval(interval);
+        }
     },[])
+    useEffect(() =>{
+             getHistoryByStock(stockData.stock).then(res =>{
+                 const graphs = res;
+                 const graph = history;
+                 const bars = graphs[`${stockData.stock}`].bars;
+                 console.log({bars})
+                 setGraphData(graph);
+                 setBars(bars);
+                setLoading(false);
+
+             })
+             .catch(err => console.error(err));    
+
+         }
+     ,[])
 
     async function fetchData(){
         try{
@@ -38,7 +61,20 @@ export default function StockCard({stockData,graphsData}){
         }
     }
 
+    const options = {
+        loop:true,
+        autoplay:true,
+        animationData:animationData,
+    }
+
     
+    if(loading){
+        return (
+            <LoadingContainer>
+                <Lottie options={options}/>
+            </LoadingContainer>
+        )
+    }
 
     console.log({graphData})
     return (

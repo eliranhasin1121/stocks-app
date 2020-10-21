@@ -58,4 +58,14 @@ padding:${({time})=>time ? '7px 10px 10px':'15px 40px 20px'};
 `
 export const HorizontalLine = styled.div`
 border-bottom:1px solid ${PRIMARY};
+`   
+
+export const LoadingContainer = styled.div`
+display:flex;
+justify-content:center;
+-moz-transform: scale(-1, 1);
+-webkit-transform: scale(-1, 1);
+-o-transform: scale(-1, 1);
+-ms-transform: scale(-1, 1);
+transform: scale(-1, 1);
 `

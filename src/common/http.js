@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export async function getStocksData(){
     try{
-        const result = await axios.get('http://localhost:8080/tickers/stockdata');
+        const result = await axios.get('https://meaningfull-insight.herokuapp.com/tickers/stockdata');
         
         if(result.data && result.status=== 200){
             return result.data.ticker_list;
@@ -18,7 +18,7 @@ export async function getStocksData(){
 
 export async function getHistoryByStock(stock){
     try{
-        const response = await axios.get(`http://localhost:8080/tickers/history?ticker=${stock}`)
+        const response = await axios.get(`https://meaningfull-insight.herokuapp.com/tickers/history?ticker=${stock}`)
         if(response.data && response.status === 200){
             return response.data;
         }else{
