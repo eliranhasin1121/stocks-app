@@ -33,13 +33,13 @@ const [selected,setSelected] = useState(null);
         res.forEach((stock,index)=>{
             if(stock.events_data){
                 let domElement = getRowElement(index);
-                domElement.style.cssText = `background-color:${FLICKER_COLOR}`;
+                domElement.style.cssText = `background-color:${FLICKER_COLOR};transition:0.2s all;`;
                 setTimeout(()=>{
-                domElement.style.cssText = `background-color:${NAVBAR_COLOR}`;
+                domElement.style.cssText = `background-color:${NAVBAR_COLOR};transition:0.2s all;`;
                 setTimeout(()=>{
-                    domElement.style.cssText = `background-color:${FLICKER_COLOR}`;
+                    domElement.style.cssText = `background-color:${FLICKER_COLOR};transition:0.2s all;`;
                     setTimeout(()=>{
-                        domElement.style.cssText = `background-color:${NAVBAR_COLOR}`;
+                        domElement.style.cssText = `background-color:${NAVBAR_COLOR};transition:0.2s all;`;
                     },300)
                 },300)
                 },300)

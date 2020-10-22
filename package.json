@@ -2,7 +2,6 @@
   "name": "tickeer-app",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:8080",
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
     "@testing-library/jest-dom": "^4.2.4",
@@ -10,6 +9,7 @@
     "@testing-library/user-event": "^7.1.2",
     "antd": "^4.7.1",
     "axios": "^0.20.0",
+    "moment": "^2.29.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-instantsearch-dom": "^6.8.1",
