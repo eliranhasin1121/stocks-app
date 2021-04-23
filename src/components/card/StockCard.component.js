@@ -16,6 +16,7 @@ export default function StockCard({stockData}){
     const [lineWidth,setLineWidth] = useState(0);
     const [tweets,setTweets] = useState([]);
     useEffect(() =>{
+        console.log('Lochi test!');
        const interval =  setInterval(()=>{
             getHistoryByStock(stockData.stock).then(res =>{
                 const graphs = res[`${stockData.stock}`];
